@@ -1,0 +1,34 @@
+        <div class="container mt-4">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h4 class="text-center">Registro de Alumnos</h4>
+                    <a class="btn btn-light" href="<?= $this->url('alumno', ['action' => 'add']) ?>"><span class="fa fa-plus"></span> Nuevo Registro</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%">RUN</th>
+                                <th style="width: 30%">NOMBRES</th>
+                                <th style="width: 30%">APELLIDOS</th>
+                                <th style="width: 25%">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($alumnos as $alumno) : ?>
+                                <tr>
+                                    <td><?= $this->escapeHtml($alumno->run) ?></td>
+                                    <td><?= $this->escapeHtml($alumno->nombre) ?></td>
+                                    <td><?= $this->escapeHtml($alumno->apellido) ?></td>
+                                    <td>
+                                        <a class="btn btn-warning" href="<?= $this->url('alumno', ['action' => 'edit', 'run' => $alumno->run]) ?>"><span class="fa fa-pencil"></span> Modificar</a>
+                                        <a class="btn btn-danger" href="<?= $this->url('alumno', ['action' => 'delete', 'run' => $alumno->run]) ?>"><span class="fa fa-trash"></span> Eliminar</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,78 @@
+<?php
+$title = 'Agregar Alumno';
+//$this->headTitle($title);
+?>
+<!--<h1><?= $this->escapeHtml($title) ?></h1><br>-->
+
+<?php
+    $run = $form->get('run');
+    $run->setAttribute('class', 'form-control');
+    $run->setAttribute('placeholder', 'Run');
+
+    // This provides a default CSS class and placeholder text for the title element:
+    $nombre = $form->get('nombre');
+    $nombre->setAttribute('class', 'form-control');
+    $nombre->setAttribute('placeholder', 'Nombre');
+
+    // This provides a default CSS class and placeholder text for the artist element:
+    $apellido = $form->get('apellido');
+    $apellido->setAttribute('class', 'form-control');
+    $apellido->setAttribute('placeholder', 'Apellido');
+
+    // This provides CSS classes for the submit button:
+    $submit = $form->get('submit');
+    $submit->setAttribute('class', 'btn btn-primary');
+
+    $form->setAttribute('action', $this->url('alumno', ['action' => 'add']));
+    $form->prepare();
+
+    echo $this->form()->openTag($form);
+?>
+ 
+<!--    TUTORIAL
+
+    <div class="form-group">
+        <?= $this->formLabel($run) ?>
+        <?= $this->formElement($run) ?>
+        <?= $this->formElementErrors()->render($run, ['class' => 'help-block']) ?>
+    </div>
+
+    <div class="form-group">
+        <?= $this->formLabel($nombre) ?>
+        <?= $this->formElement($nombre) ?>
+        <?= $this->formElementErrors()->render($nombre, ['class' => 'help-block']) ?>
+    </div>
+
+    <div class="form-group">
+        <?= $this->formLabel($apellido) ?>
+        <?= $this->formElement($apellido) ?>
+        <?= $this->formElementErrors()->render($apellido, ['class' => 'help-block']) ?>
+    </div>
+
+-->
+        <div class="container mt-4 col-lg-4">
+            <div class="card border-info">
+                <div class="card-header bg-info">
+                    <h4 class="text-center text-white">Agregar Nuevo Registro</h4>
+                </div>
+                <div class="card-body">
+                    <?= $this->formLabel($run) ?>
+                    <?= $this->formElement($run) ?>
+                    <?= $this->formElementErrors()->render($run, ['class' => 'help-block']) ?>
+                    <?= $this->formLabel($nombre) ?>
+                    <?= $this->formElement($nombre) ?>
+                    <?= $this->formElementErrors()->render($nombre, ['class' => 'help-block']) ?>
+                    <?= $this->formLabel($apellido) ?>
+                    <?= $this->formElement($apellido) ?>
+                    <?= $this->formElementErrors()->render($apellido, ['class' => 'help-block']) ?>
+                    <br>
+                    <a class="btn btn-success col-sm-4" href="<?= $this->url('alumno') ?>"><span class="fa fa-arrow-left"></span> Volver</a>
+                    <button id="agregar" type="submit" class="btn btn-primary col-sm-4 pull-right"><span class="fa fa-save"></span> Guardar</button>
+                </div>
+            </div>
+        </div>
+<?php
+    //echo $this->formSubmit($submit);
+    //echo $this->formHidden($form->get('run'));
+    echo $this->form()->closeTag();
+?>

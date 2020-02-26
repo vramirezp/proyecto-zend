@@ -6,10 +6,12 @@
  */
 
 namespace Application;
+//namespace Alumno;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Alumno\Controller\AlumnoController;
 
 return [
     'router' => [
@@ -20,6 +22,7 @@ return [
                     'route'    => '/',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
+                        //'controller' => Controller\AlumnoController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -30,6 +33,20 @@ return [
                     'route'    => '/application[/:action]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'alumno' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/alumno[/:action[/:run]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'run'     => '[a-zA-Z][0-9][a-zA-Z0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\AlumnoController::class,
                         'action'     => 'index',
                     ],
                 ],

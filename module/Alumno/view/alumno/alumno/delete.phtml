@@ -1,0 +1,23 @@
+<?php
+// module/Album/view/album/album/delete.phtml:
+
+$title = 'Eliminar Alumno';
+$url   = $this->url('alumno', ['action' => 'delete', 'run' => $run]);
+
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<p>
+    ¿Seguro que desseas eliminar al alumno 
+    "<?= $this->escapeHtml($alumno->nombre) ?>" 
+    "<?= $this->escapeHtml($alumno->apellido) ?>"?
+</p>
+
+<form action="<?= $url ?>" method="post">
+<div class="form-group">
+    <input type="hidden" name="run" value="<?= (String) $alumno->run ?>" />
+    <input type="submit" class="btn btn-danger" name="del" value="Sí" />
+    <input type="submit" class="btn btn-success" name="del" value="No" />
+</div>
+</form>

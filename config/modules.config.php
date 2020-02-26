@@ -26,5 +26,5 @@ return [
     'Zend\Validator',
     'ZendDeveloperTools',
     'Application',
-    'Alumno'
+    'Alumno',
 ];
