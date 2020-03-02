@@ -61,18 +61,28 @@ class AlumnoTable
         try
         {
             $this->getAlumno($run);
-            $this->tableGateway->update($data, ['run' => $run]);
+            $this->tableGateway->update($data, ['run' => (String) $run]);
+            return true;
         }
         catch (RuntimeException $e)
         {
-            $this->tableGateway->insert($data);
-            return;
+            try
+            {
+                $this->tableGateway->insert($data);
+                return true;
+            }
+            catch (RuntimeException $e)
+            {
+                return false;
+            }
         }
+        return true;
     }
 
     public function deleteAlumno($run)
     {
-        $this->tableGateway->delete(['run' => (String) $run]);
+        if($this->tableGateway->delete(['run' => (String) $run])) return true;
+        else return false;
     }
 }
 ?>

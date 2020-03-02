@@ -12,6 +12,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Alumno\Form\AlumnoForm;
 use Alumno\Entity\Alumno;
+use Zend\View\Model\JsonModel;
 
 class AlumnoController extends AbstractActionController
 {
@@ -33,6 +34,7 @@ class AlumnoController extends AbstractActionController
     {
         $form = new AlumnoForm();
         $form->get('submit')->setValue('Agregar');
+        $form->setAttribute('id', 'alumnoform');
 
         $request = $this->getRequest();
 
@@ -61,9 +63,6 @@ class AlumnoController extends AbstractActionController
             return $this->redirect()->toRoute('alumno', ['action' => 'add']);
         }
 
-        // Retrieve the alumno with the specified run. Doing so raises
-        // an exception if the album is not found, which should result
-        // in redirecting to the landing page.
         try {
             $alumno = $this->table->getAlumno($run);
         } catch (\Exception $e) {
@@ -73,6 +72,7 @@ class AlumnoController extends AbstractActionController
         $form = new AlumnoForm();
         $form->bind($alumno);
         $form->get('submit')->setAttribute('value', 'Modificar');
+        $form->setAttribute('id', 'alumnoform');
 
         $request = $this->getRequest();
         $viewData = ['run' => $run, 'form' => $form];
@@ -89,7 +89,6 @@ class AlumnoController extends AbstractActionController
         }
 
         $this->table->saveAlumno($alumno);
-
         return $this->redirect()->toRoute('alumno');
     }
 
@@ -116,5 +115,94 @@ class AlumnoController extends AbstractActionController
             'run'    => $run,
             'alumno' => $this->table->getAlumno($run),
         ];
+    }
+
+    public function eliminarAction()
+    {
+        $run = (String) $this->params()->fromRoute('run', 0);
+        if (!$run) {
+            return $this->redirect()->toRoute('alumno');
+        }
+
+        $view = new JsonModel(array('data' => 0));
+
+        if($this->table->deleteAlumno($run) == true)
+        {
+            $view = new JsonModel(array('data' => 1)); 
+            $view->setTerminal(true);
+
+            /*return $this->redirect()->toRoute('alumno');
+
+            return [
+                'run'    => $run,
+                'alumno' => $this->table->getAlumno($run),
+            ];*/
+        }
+
+        return $view;
+    }
+
+    public function modificarAction()
+    {
+        $run = $this->params()->fromRoute('run', 0);
+        $nombre = $this->params()->fromRoute('nombre', 0);
+        $apellido = $this->params()->fromRoute('apellido', 0);
+
+        $alumno = new Alumno();
+
+        $alumno->run = $run;
+        $alumno->nombre = $nombre;
+        $alumno->apellido = $apellido;
+
+        $view = new JsonModel(array('data' => $run));
+        $view->setTerminal(true);
+
+        try
+        {
+            //$alumno2 = $this->table->getAlumno($run);
+
+            if($this->table->saveAlumno($alumno) == true)
+            {
+                $view = new JsonModel(array('data' => 1)); 
+            }
+        }
+        catch (\Exception $e)
+        {
+            $view = new JsonModel(array('data' => $run.$nombre.$apellido));
+        }
+
+        return $view;
+    }
+
+    public function cargarAction(){
+        $alumnos = $this->table->fetchAll();
+
+        $request = $this->getRequest(); 
+        $query = $request->getQuery();
+        $view = new JsonModel(array('nombre' => 'holaaaa'));
+
+        if ($request->isXmlHttpRequest() || $query->get('showJson') == 1)
+        {
+            $jsonData = array();
+            $idx = 0;
+            
+            foreach ($alumnos as $alumno){
+                $temp = array( 
+                    'run' => $alumno->run, 
+                    'nombre' => $alumno->nombre, 
+                    'apellido' => $alumno->apellido 
+                 );  
+                 $jsonData[$idx++] = $temp;
+            }
+
+            $view = new JsonModel($jsonData); 
+            $view->setTerminal(true);
+        }
+        else
+        {
+            $view = new ViewModel();
+        }
+
+        return $view;
     }
 }

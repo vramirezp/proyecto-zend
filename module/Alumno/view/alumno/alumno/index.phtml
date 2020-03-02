@@ -9,24 +9,24 @@
                         <thead>
                             <tr>
                                 <th style="width: 15%">RUN</th>
-                                <th style="width: 30%">NOMBRES</th>
-                                <th style="width: 30%">APELLIDOS</th>
+                                <th style="width: 30%">NOMBRE</th>
+                                <th style="width: 30%">APELLIDO</th>
                                 <th style="width: 25%">ACCIONES</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="listaAlumnos">
                             <?php foreach ($alumnos as $alumno) : ?>
-                                <tr>
+                                <!--<tr>
                                     <td><?= $this->escapeHtml($alumno->run) ?></td>
                                     <td><?= $this->escapeHtml($alumno->nombre) ?></td>
                                     <td><?= $this->escapeHtml($alumno->apellido) ?></td>
                                     <td>
+                                        <input type='hidden' value='<?= $alumno->run ?>' id='runTemp'>
                                         <a class="btn btn-warning" href="<?= $this->url('alumno', ['action' => 'edit', 'run' => $alumno->run]) ?>"><span class="fa fa-pencil"></span> Modificar</a>
-                                        <a class="btn btn-danger" href="<?= $this->url('alumno', ['action' => 'delete', 'run' => $alumno->run]) ?>"><span class="fa fa-trash"></span> Eliminar</a>
+                                        <a class="btn btn-danger eliminar" href="<?= $this->url('alumno', ['action' => 'delete', 'run' => $alumno->run]) ?>"><span class="fa fa-trash"></span> Eliminar</a>
                                     </td>
-                                </tr>
+                                </tr>-->
                             <?php endforeach; ?>
-                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

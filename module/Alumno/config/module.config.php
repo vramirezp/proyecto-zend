@@ -21,10 +21,10 @@ return [
             'alumno' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/alumno[/:action[/:run]]',
+                    'route' => '/alumno[/:action][/:run][/:nombre][/:apellido]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'run'    => '[0-9a-zA-Z]*',
+                        'run'    => '[0-9a-zA-Z.-]*',
                     ],
                     'defaults' => [
                         'controller' => Controller\AlumnoController::class,
@@ -39,5 +39,6 @@ return [
         'template_path_stack' => [
             'alumno' => __DIR__ . '/../view',
         ],
+        'strategies' => array('ViewJsonStrategy',),
     ],
 ];
